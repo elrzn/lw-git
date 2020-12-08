@@ -1,0 +1,12 @@
+* lw-git
+
+The aim of this project is to provide a subset of [[https://magit.vc][Magit]]'s functionality to be
+used within the LispWorks IDE.
+
+** Author
+
+Eric Lorenzana
+
+** License
+
+TODO
