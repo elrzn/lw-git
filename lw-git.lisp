@@ -14,7 +14,8 @@ this, it's bad news.")
 (defclass ui-base (capi:interface)
   ((path :initarg :path
          :reader path
-         :type string ; shall this be a directory instead?
+         :type string
+         :initform nil
          :documentation
          "The path provides the context for the git action.")
    (repository :initarg :repository
@@ -25,6 +26,8 @@ this, it's bad news.")
 (defmethod initialize-instance :after ((obj ui-base) &key)
   (with-slots (path repository)
       obj
+    (unless (or repository path)
+      (error "Either :PATH or :REPOSITORY slot is mandatory."))
     ;; Instantiate REPOSITORY with the provided PATH if it's not set.
     (unless repository
       (when path
