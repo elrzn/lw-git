@@ -39,15 +39,23 @@ this, it's bad news.")
    :title-position :left
    :background :transparent))
 
-(capi:define-interface ui-overview (ui-base)
-  ()
+(capi:define-interface ui-status (ui-base)
+  (repository)
   (:panes
    (head-pane display-pane-horizontal :title "Head")
    (merge-pane display-pane-horizontal :title "Merge")
-   (tags-pane display-pane-horizontal :title "Tags"))
-  (:layouts (main capi:column-layout '(head-pane merge-pane tags-pane))))
+   (tags-pane display-pane-horizontal :title "Tags")
+   (recent-commits capi:list-panel
+                   :alternating-background t
+                   :items (legit:commits repository)))
+  (:layouts
+   (main capi:column-layout '(overview recent-commits-layout))
+   (overview capi:column-layout '(head-pane merge-pane tags-pane))
+   (recent-commits-layout capi:column-layout '(recent-commits)
+                          :title "Recent commits"
+                          :title-position :frame)))
 
-(defmethod initialize-instance :after ((obj ui-overview) &key)
+(defmethod initialize-instance :after ((obj ui-status) &key)
   (with-slots (repository head-pane merge-pane tags-pane)
       obj
     (let* ((branch (legit:current-branch repository))
@@ -64,13 +72,3 @@ this, it's bad news.")
             (format nil "~a ~a"
                     "TODO"
                     "TODO")))))
-
-(capi:define-interface ui-latest-commits (ui-base)
-  (repository)
-  (:panes
-   (latest-commits capi:list-panel
-                   :alternating-background t
-                   :items (legit:commits repository)))
-  (:layouts (main capi:column-layout '(latest-commits)
-                  :title "Recent commits"
-                  :title-position :frame)))
