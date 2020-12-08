@@ -40,6 +40,9 @@ this, it's bad news.")
    :background :transparent))
 
 (capi:define-interface ui-status (ui-base)
+  ;; It is handy to re-define REPOSITORY here although it is already
+  ;; part of UI-BASE, so that it is available as part of the
+  ;; WITH-SLOTS body created by the DEFINE-INTERFACE macro.
   (repository)
   (:panes
    (head-pane display-pane-horizontal :title "Head")
