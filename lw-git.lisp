@@ -64,3 +64,13 @@ this, it's bad news.")
             (format nil "~a ~a"
                     "TODO"
                     "TODO")))))
+
+(capi:define-interface ui-latest-commits (ui-base)
+  (repository)
+  (:panes
+   (latest-commits capi:list-panel
+                   :alternating-background t
+                   :items (legit:commits repository)))
+  (:layouts (main capi:column-layout '(latest-commits)
+                  :title "Recent commits"
+                  :title-position :frame)))
