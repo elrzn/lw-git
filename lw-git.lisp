@@ -27,7 +27,7 @@ this, it's bad news.")
   (with-slots (path repository)
       obj
     (unless (or repository path)
-      (error "Either :PATH or :REPOSITORY slot is mandatory."))
+      (error "Either :PATH or :REPOSITORY initargs are mandatory."))
     ;; Instantiate REPOSITORY with the provided PATH if it's not set.
     (unless repository
       (when path
