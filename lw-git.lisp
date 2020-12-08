@@ -39,9 +39,9 @@ this, it's bad news.")
 (capi:define-interface ui-overview (ui-base)
   ()
   (:panes
-   (head-pane display-pane-horizontal :title "Head" :text "This is the head.")
-   (merge-pane display-pane-horizontal :title "Merge" :text "This is the merge.")
-   (tags-pane display-pane-horizontal :title "Tags" :text "These are the tags."))
+   (head-pane display-pane-horizontal :title "Head")
+   (merge-pane display-pane-horizontal :title "Merge")
+   (tags-pane display-pane-horizontal :title "Tags"))
   (:layouts (main capi:column-layout '(head-pane merge-pane tags-pane))))
 
 (defmethod initialize-instance :after ((obj ui-overview) &key)
