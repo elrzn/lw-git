@@ -11,6 +11,9 @@ this, it's bad news.")
 (defparameter *repository*
   (make-instance 'legit:repository :location *project*))
 
+(defun shorten-commit (commit)
+  (subseq commit 0 8))
+
 (defclass ui-base (capi:interface)
   ((path :initarg :path
          :reader path
@@ -50,7 +53,8 @@ this, it's bad news.")
    (tags-pane display-pane-horizontal :title "Tags")
    (recent-commits capi:list-panel
                    :alternating-background t
-                   :items (legit:commits repository)))
+                   :items (legit:commits repository)
+                   :print-function #'shorten-commit))
   (:layouts
    (main capi:column-layout '(overview recent-commits-layout))
    (overview capi:column-layout '(head-pane merge-pane tags-pane))
