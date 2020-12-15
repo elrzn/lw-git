@@ -79,3 +79,17 @@ this, it's bad news.")
             (format nil "~a ~a"
                     "TODO"
                     "TODO")))))
+
+(capi:define-interface ui-git-commit (ui-base)
+  ((commit :initarg :commit))
+  (:panes
+   (commit-author-pane display-pane-horizontal :title "Author")
+   (commit-date-pane display-pane-horizontal :title "Date")
+   (commit-refs-pane display-pane-horizontal :title "Refs"))
+  (:layouts
+   (main capi:column-layout '(head))
+   (head capi:column-layout '(commit-author-pane
+                              commit-date-pane
+                              commit-refs-pane)
+         :title "Commit TODO"
+         :title-position :frame)))
