@@ -54,7 +54,11 @@ this, it's bad news.")
    (recent-commits capi:list-panel
                    :alternating-background t
                    :items (legit:commits repository)
-                   :print-function #'shorten-commit))
+                   :print-function #'shorten-commit
+                   :action-callback #'(lambda (commit list-panel)
+                                        (capi:display (make-instance 'ui-git-commit
+                                                                     :commit commit
+                                                                     :repository repository)))))
   (:layouts
    (main capi:column-layout '(overview recent-commits-layout))
    (overview capi:column-layout '(head-pane merge-pane tags-pane))
@@ -81,7 +85,8 @@ this, it's bad news.")
                     "TODO")))))
 
 (capi:define-interface ui-git-commit (ui-base)
-  ((commit :initarg :commit))
+  (path
+   (commit :initarg :commit))
   (:panes
    (commit-author-pane display-pane-horizontal :title "Author")
    (commit-date-pane display-pane-horizontal :title "Date")
@@ -90,6 +95,13 @@ this, it's bad news.")
    (main capi:column-layout '(head))
    (head capi:column-layout '(commit-author-pane
                               commit-date-pane
-                              commit-refs-pane)
-         :title "Commit TODO"
+                              ;commit-refs-pane
+                              )
+         :title (format nil "Commit ~a" commit)
          :title-position :frame)))
+
+(defmethod initialize-instance :after ((obj ui-git-commit) &key)
+  (with-slots (path commit commit-author-pane commit-date-pane)
+      obj
+    (setf (capi:display-pane-text commit-author-pane) "Eric Lorenzana")
+    (setf (capi:display-pane-text commit-date-pane) "TODAY")))
