@@ -89,8 +89,7 @@ this, it's bad news.")
                     "TODO")))))
 
 (capi:define-interface ui-git-commit (ui-base)
-  (path
-   (commit :initarg :commit))
+  ((commit :initarg :commit))
   (:panes
    (commit-author-pane display-pane-horizontal :title "Author")
    (commit-date-pane display-pane-horizontal :title "Date")
@@ -101,11 +100,17 @@ this, it's bad news.")
                               commit-date-pane
                               ;commit-refs-pane
                               )
-         :title (format nil "Commit ~a" commit)
-         :title-position :frame)))
+         :title commit
+         :title-position :frame))
+  (:default-initargs
+   :best-width 480
+   :best-height 640))
 
 (defmethod initialize-instance :after ((obj ui-git-commit) &key)
   (with-slots (path commit commit-author-pane commit-date-pane)
       obj
+    ;; COMMIT is not available on :DEFAULT-INITARGS so let's set the
+    ;; title here.
+    (setf (capi:interface-title obj) (format nil "Commit ~a" (shorten-commit commit)))
     (setf (capi:display-pane-text commit-author-pane) "Eric Lorenzana")
     (setf (capi:display-pane-text commit-date-pane) "TODAY")))
