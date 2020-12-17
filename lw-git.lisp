@@ -51,6 +51,8 @@ this, it's bad news.")
    (head-pane display-pane-horizontal :title "Head")
    (merge-pane display-pane-horizontal :title "Merge")
    (tags-pane display-pane-horizontal :title "Tags")
+   ;; TODO Untracked files.
+   ;; TODO Unstaged changes.
    (recent-commits capi:list-panel
                    :alternating-background t
                    :items (legit:commits repository)
