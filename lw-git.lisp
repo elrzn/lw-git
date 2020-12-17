@@ -97,7 +97,9 @@ this, it's bad news.")
    (commit :initarg :commit))
   (:panes
    (commit-author-pane display-pane-horizontal :title "Author")
-   (commit-date-pane display-pane-horizontal :title "Date")
+   (commit-date-pane display-pane-horizontal
+                     :title "Date"
+                     :text (legit:commit-date repository commit))
    (commit-refs-pane display-pane-horizontal :title "Refs")
    (commit-message-pane display-pane-transparent
                         :title "Message"
@@ -115,14 +117,13 @@ this, it's bad news.")
    :best-height 640))
 
 (defmethod initialize-instance :after ((obj ui-git-commit) &key)
-  (with-slots (repository commit commit-author-pane commit-date-pane)
+  (with-slots (repository commit commit-author-pane)
       obj
     ;; COMMIT is not available on :DEFAULT-INITARGS so let's set the
     ;; title here.
     (setf (capi:interface-title obj) (format nil "Commit ~a" (shorten-commit commit)))
     (setf (capi:display-pane-text commit-author-pane)
-          (legit:commit-author repository commit))
-    (setf (capi:display-pane-text commit-date-pane) "TODAY")))
+          (legit:commit-author repository commit))))
 
 (defun foo ()
   (capi:display (make-instance 'ui-status :repository *repository*)))
