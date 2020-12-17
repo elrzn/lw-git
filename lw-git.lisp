@@ -58,7 +58,8 @@ this, it's bad news.")
    (recent-commits capi:list-panel
                    :alternating-background t
                    :items (legit:commits repository)
-                   :print-function #'shorten-commit
+                   :print-function #'(lambda (commit)
+                                       (legit:commit-message repository commit))
                    :action-callback #'(lambda (commit list-panel)
                                         (capi:display (make-instance 'ui-git-commit
                                                                      :commit commit
