@@ -36,11 +36,13 @@ this, it's bad news.")
       (when path
         (setf repository (make-instance 'legit:repository :location path))))))
 
-(defclass display-pane-horizontal (capi:display-pane)
+(defclass display-pane-transparent (capi:display-pane)
   ()
-  (:default-initargs
-   :title-position :left
-   :background :transparent))
+  (:default-initargs :background :transparent))
+
+(defclass display-pane-horizontal (display-pane-transparent)
+  ()
+  (:default-initargs :title-position :left))
 
 (capi:define-interface ui-status (ui-base)
   ;; It is handy to re-define REPOSITORY here although it is already
@@ -95,13 +97,15 @@ this, it's bad news.")
   (:panes
    (commit-author-pane display-pane-horizontal :title "Author")
    (commit-date-pane display-pane-horizontal :title "Date")
-   (commit-refs-pane display-pane-horizontal :title "Refs"))
+   (commit-refs-pane display-pane-horizontal :title "Refs")
+   (commit-message-pane display-pane-transparent :title "Message")
+   )
   (:layouts
    (main capi:column-layout '(head))
    (head capi:column-layout '(commit-author-pane
                               commit-date-pane
-                              ;commit-refs-pane
-                              )
+                            ; commit-refs-pane
+                              commit-message-pane)
          :title commit
          :title-position :frame))
   (:default-initargs
@@ -109,10 +113,17 @@ this, it's bad news.")
    :best-height 640))
 
 (defmethod initialize-instance :after ((obj ui-git-commit) &key)
-  (with-slots (path commit commit-author-pane commit-date-pane)
+  (with-slots (path repository commit commit-author-pane commit-date-pane commit-message-pane)
       obj
     ;; COMMIT is not available on :DEFAULT-INITARGS so let's set the
     ;; title here.
+    (declare (ignore path))
     (setf (capi:interface-title obj) (format nil "Commit ~a" (shorten-commit commit)))
-    (setf (capi:display-pane-text commit-author-pane) "Eric Lorenzana")
-    (setf (capi:display-pane-text commit-date-pane) "TODAY")))
+    (setf (capi:display-pane-text commit-author-pane)
+          (legit:commit-author repository commit))
+    (setf (capi:display-pane-text commit-date-pane) "TODAY")
+    (setf (capi:display-pane-text commit-message-pane)
+          (legit:commit-message repository commit))))
+
+(defun foo ()
+  (capi:display (make-instance 'ui-status :repository *repository*)))
