@@ -64,7 +64,11 @@ this, it's bad news.")
    (overview capi:column-layout '(head-pane merge-pane tags-pane))
    (recent-commits-layout capi:column-layout '(recent-commits)
                           :title "Recent commits"
-                          :title-position :frame)))
+                          :title-position :frame))
+  (:default-initargs
+   :title "TODO Name of the project"
+   :best-width 480
+   :best-height 640))
 
 (defmethod initialize-instance :after ((obj ui-status) &key)
   (with-slots (repository head-pane merge-pane tags-pane)
