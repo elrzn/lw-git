@@ -79,19 +79,14 @@ this, it's bad news.")
   (with-slots (repository head-pane merge-pane tags-pane)
       obj
     (let* ((branch (legit:current-branch repository))
-           (current-message (legit:current-message repository)))
+           (current-message (legit:current-message repository))
+           (headline (car (uiop:split-string current-message :separator '(#\Newline)))))
       (setf (capi:display-pane-text head-pane)
-            (format nil "~a ~a"
-                    branch
-                    current-message))
+            (format nil "~a ~a" branch headline))
       (setf (capi:display-pane-text merge-pane)
-            (format nil "~a ~a"
-                    "TODO"
-                    current-message))
+            (format nil "~a ~a" "TODO" headline))
       (setf (capi:display-pane-text tags-pane)
-            (format nil "~a ~a"
-                    "TODO"
-                    "TODO")))))
+            (format nil "~a ~a" "TODO" "TODO")))))
 
 (capi:define-interface ui-git-commit (ui-base)
   ((repository)
