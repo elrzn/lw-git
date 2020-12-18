@@ -51,6 +51,7 @@
                                        (string-first-line
                                         (legit:commit-message repository commit)))
                    :action-callback #'(lambda (commit list-panel)
+                                        (declare (ignore list-panel))
                                         (capi:display (make-instance 'ui-git-commit
                                                                      :commit commit
                                                                      :repository repository)))))
