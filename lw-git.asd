@@ -9,4 +9,5 @@
   :depends-on (#:alexandria #:legit)
   :components ((:file "package")
                (:file "utils")
-               (:file "lw-git")))
+               (:file "lw-git")
+               (:file "delme")))

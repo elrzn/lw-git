@@ -2,14 +2,6 @@
 
 (in-package #:lw-git)
 
-;; DELME
-(defparameter *project* "/Users/elrzn/common-lisp/lw-git"
-  "This is a dummy project for testing purposes. If you are seeing
-this, it's bad news.")
-
-;; DELME
-(defparameter *repository*
-  (make-instance 'legit:repository :location *project*))
 
 (defun shorten-commit (commit)
   (subseq commit 0 8))
@@ -120,6 +112,3 @@ this, it's bad news.")
     ;; COMMIT is not available on :DEFAULT-INITARGS so let's set the
     ;; title here.
     (setf (capi:interface-title obj) (format nil "Commit ~a" (shorten-commit commit)))))
-
-(defun foo ()
-  (capi:display (make-instance 'ui-status :repository *repository*)))
