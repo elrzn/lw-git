@@ -83,10 +83,10 @@
   ((repository)
    (commit :initarg :commit))
   (:panes
-   (commit-author-pane display-pane-horizontal
+   (commit-author-pane capi:title-pane
                        :title "Author"
                        :text (legit:commit-author repository commit))
-   (commit-date-pane display-pane-horizontal
+   (commit-date-pane capi:title-pane
                      :title "Date"
                      :text (legit:commit-date repository commit))
    (commit-refs-pane display-pane-horizontal :title "Refs")
