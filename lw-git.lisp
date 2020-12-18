@@ -38,9 +38,15 @@
   ;; WITH-SLOTS body created by the DEFINE-INTERFACE macro.
   (repository)
   (:panes
-   (head-pane capi:title-pane :title "Head")
-   (merge-pane capi:title-pane :title "Merge")
-   (tags-pane display-pane-horizontal :title "Tags")
+   (head-pane capi:title-pane
+              :title "Head"
+              :title-args '(:external-min-width 50))
+   (merge-pane capi:title-pane
+               :title "Merge"
+               :title-args '(:external-min-width 50))
+   (tags-pane display-pane-horizontal
+              :title "Tags"
+              :title-args '(:external-min-width 50))
    ;; TODO Untracked files.
    ;; TODO Unstaged changes.
    (recent-commits capi:list-panel
@@ -85,10 +91,12 @@
   (:panes
    (commit-author-pane capi:title-pane
                        :title "Author"
-                       :text (legit:commit-author repository commit))
+                       :text (legit:commit-author repository commit)
+                       :title-args '(:external-min-width 50))
    (commit-date-pane capi:title-pane
                      :title "Date"
-                     :text (legit:commit-date repository commit))
+                     :text (legit:commit-date repository commit)
+                     :title-args '(:external-min-width 50))
    (commit-refs-pane display-pane-horizontal :title "Refs")
    (commit-message-pane display-pane-transparent
                         :title "Message"
