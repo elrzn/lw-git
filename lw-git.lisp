@@ -38,8 +38,8 @@
   ;; WITH-SLOTS body created by the DEFINE-INTERFACE macro.
   (repository)
   (:panes
-   (head-pane display-pane-horizontal :title "Head")
-   (merge-pane display-pane-horizontal :title "Merge")
+   (head-pane capi:title-pane :title "Head")
+   (merge-pane capi:title-pane :title "Merge")
    (tags-pane display-pane-horizontal :title "Tags")
    ;; TODO Untracked files.
    ;; TODO Unstaged changes.
@@ -72,9 +72,9 @@
     (let* ((branch (legit:current-branch repository))
            (current-message (legit:current-message repository))
            (headline (string-first-line current-message)))
-      (setf (capi:display-pane-text head-pane)
+      (setf (capi:title-pane-text head-pane)
             (format nil "~a ~a" branch headline))
-      (setf (capi:display-pane-text merge-pane)
+      (setf (capi:title-pane-text merge-pane)
             (format nil "~a ~a" "TODO" headline))
       (setf (capi:display-pane-text tags-pane)
             (format nil "~a ~a" "TODO" "TODO")))))
