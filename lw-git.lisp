@@ -62,6 +62,10 @@ titled objects.")
               :title-args *default-horizontal-separator*)
    ;; TODO Untracked files.
    ;; TODO Unstaged changes.
+   ;; This is a bit too slow, specially since the addition of
+   ;; :PRINT-FUNCTION, consider optimising this by fetching all
+   ;; interface data in bulk.
+   ;; TODO Make it multi-column with [ commit hash | commit msg ].
    (recent-commits capi:list-panel
                    :alternating-background t
                    :items (legit:commits repository)
