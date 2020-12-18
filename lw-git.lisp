@@ -6,6 +6,10 @@
   (gp:make-font-description :stock :system-fixed-font)
   "A simple stock monospace font.")
 
+(defmethod project-name ((repository legit:repository))
+  (car (reverse (uiop/utility:split-string (simple-inferiors:location *repository*)
+                                           :separator `(,(uiop/pathname:directory-separator-for-host))))))
+
 (defclass ui-base (capi:interface)
   ((path :initarg :path
          :reader path
@@ -72,7 +76,6 @@
                           :title "Recent commits"
                           :title-position :frame))
   (:default-initargs
-   :title "TODO Name of the project"
    :best-width 480
    :best-height 640))
 
@@ -87,7 +90,8 @@
       (setf (capi:title-pane-text merge-pane)
             (format nil "~a ~a" "TODO" headline))
       (setf (capi:display-pane-text tags-pane)
-            (format nil "~a ~a" "TODO" "TODO")))))
+            (format nil "~a ~a" "TODO" "TODO"))
+      (setf (capi:interface-title obj) (project-name repository)))))
 
 (capi:define-interface ui-git-commit (ui-base)
   ((repository)
