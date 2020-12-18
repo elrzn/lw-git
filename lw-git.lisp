@@ -2,10 +2,6 @@
 
 (in-package #:lw-git)
 
-
-(defun shorten-commit (commit)
-  (subseq commit 0 8))
-
 (defclass ui-base (capi:interface)
   ((path :initarg :path
          :reader path
