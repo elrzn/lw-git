@@ -2,6 +2,10 @@
 
 (in-package #:lw-git)
 
+(defparameter *monospace-font*
+  (gp:make-font-description :stock :system-fixed-font)
+  "A simple stock monospace font.")
+
 (defclass ui-base (capi:interface)
   ((path :initarg :path
          :reader path
@@ -100,6 +104,7 @@
    (commit-refs-pane display-pane-horizontal :title "Refs")
    (commit-message-pane display-pane-transparent
                         :title "Message"
+                        :font *monospace-font*
                         :text (legit:commit-message repository commit)))
   (:layouts
    (main capi:column-layout '(head))
