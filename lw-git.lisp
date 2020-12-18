@@ -6,6 +6,11 @@
   (gp:make-font-description :stock :system-fixed-font)
   "A simple stock monospace font.")
 
+(defparameter *default-horizontal-separator*
+  '(:external-min-width 50)
+  "The default separator used to separate the title and content of
+titled objects.")
+
 (defmethod project-name ((repository legit:repository))
   (car (reverse (uiop/utility:split-string (simple-inferiors:location *repository*)
                                            :separator `(,(uiop/pathname:directory-separator-for-host))))))
@@ -48,13 +53,13 @@
   (:panes
    (head-pane capi:title-pane
               :title "Head"
-              :title-args '(:external-min-width 50))
+              :title-args *default-horizontal-separator*)
    (merge-pane capi:title-pane
                :title "Merge"
-               :title-args '(:external-min-width 50))
+               :title-args *default-horizontal-separator*)
    (tags-pane display-pane-horizontal
               :title "Tags"
-              :title-args '(:external-min-width 50))
+              :title-args *default-horizontal-separator*)
    ;; TODO Untracked files.
    ;; TODO Unstaged changes.
    (recent-commits capi:list-panel
@@ -100,11 +105,11 @@
    (commit-author-pane capi:title-pane
                        :title "Author"
                        :text (legit:commit-author repository commit)
-                       :title-args '(:external-min-width 50))
+                       :title-args *default-horizontal-separator*)
    (commit-date-pane capi:title-pane
                      :title "Date"
                      :text (legit:commit-date repository commit)
-                     :title-args '(:external-min-width 50))
+                     :title-args *default-horizontal-separator*)
    (commit-refs-pane display-pane-horizontal :title "Refs")
    (commit-message-pane display-pane-transparent
                         :title "Message"
