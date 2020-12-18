@@ -80,7 +80,7 @@ this, it's bad news.")
       obj
     (let* ((branch (legit:current-branch repository))
            (current-message (legit:current-message repository))
-           (headline (car (uiop:split-string current-message :separator '(#\Newline)))))
+           (headline (string-first-line current-message)))
       (setf (capi:display-pane-text head-pane)
             (format nil "~a ~a" branch headline))
       (setf (capi:display-pane-text merge-pane)
