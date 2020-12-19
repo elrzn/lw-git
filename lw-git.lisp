@@ -66,18 +66,18 @@ titled objects.")
    ;; This is a bit too slow, specially since the addition of
    ;; :PRINT-FUNCTION, consider optimising this by fetching all
    ;; interface data in bulk.
-   ;; TODO Make it multi-column with [ commit hash | commit msg ].
-   (recent-commits capi:list-panel
+   (recent-commits capi:multi-column-list-panel
                    :alternating-background t
-                   :items (legit:commits repository :max-count max-count)
-                   :print-function #'(lambda (commit)
-                                       ;; Can this be done faster with pretty print?
-                                       (string-first-line
-                                        (legit:commit-message repository commit)))
-                   :action-callback #'(lambda (commit list-panel)
+                   :columns '((:title "Hash") (:title "Message"))
+                   :items (mapcar #'dup (legit:commits repository :max-count max-count))
+                   :item-print-functions (list
+                                          #'shorten-commit
+                                          #'(lambda (commit)
+                                              (legit:commit-message repository commit)))
+                   :action-callback #'(lambda (commit-dup list-panel)
                                         (declare (ignore list-panel))
                                         (capi:display (make-instance 'ui-git-commit
-                                                                     :commit commit
+                                                                     :commit (car commit-dup)
                                                                      :repository repository)))))
   (:layouts
    (main capi:column-layout '(overview recent-commits-layout))

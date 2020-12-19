@@ -7,3 +7,5 @@
 
 (defun string-first-line (string)
   (car (uiop:split-string string :separator '(#\Newline))))
+
+(defun dup (x) `(,x ,x))
