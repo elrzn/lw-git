@@ -49,7 +49,8 @@ titled objects.")
   ;; It is handy to re-define REPOSITORY here although it is already
   ;; part of UI-BASE, so that it is available as part of the
   ;; WITH-SLOTS body created by the DEFINE-INTERFACE macro.
-  (repository)
+  ((repository)
+   (max-count :initarg :max-count :type fixnum :initform 10))
   (:panes
    (head-pane capi:title-pane
               :title "Head"
@@ -68,7 +69,7 @@ titled objects.")
    ;; TODO Make it multi-column with [ commit hash | commit msg ].
    (recent-commits capi:list-panel
                    :alternating-background t
-                   :items (legit:commits repository)
+                   :items (legit:commits repository :max-count max-count)
                    :print-function #'(lambda (commit)
                                        ;; Can this be done faster with pretty print?
                                        (string-first-line
@@ -86,7 +87,7 @@ titled objects.")
                           :title-position :frame))
   (:default-initargs
    :best-width 480
-   :best-height 640))
+   :best-height 312))
 
 (defmethod initialize-instance :after ((obj ui-status) &key)
   (with-slots (repository head-pane merge-pane tags-pane)
