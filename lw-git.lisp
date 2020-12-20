@@ -69,6 +69,7 @@ titled objects.")
    (recent-commits capi:multi-column-list-panel
                    :alternating-background t
                    :columns '((:title "Hash") (:title "Message"))
+                   :font *monospace-font*
                    :items (mapcar #'dup (legit:commits repository :max-count max-count))
                    :item-print-functions (list
                                           #'shorten-commit
