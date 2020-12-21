@@ -68,7 +68,8 @@ titled objects.")
    ;; interface data in bulk.
    (recent-commits capi:multi-column-list-panel
                    :alternating-background t
-                   :columns '((:title "Hash") (:title "Message"))
+                   :columns '((:title "Hash" :width (character 8))
+                              (:title "Message" :width (character 72)))
                    :font *monospace-font*
                    :items (mapcar #'dup (legit:commits repository :max-count max-count))
                    :item-print-functions (list
@@ -84,11 +85,11 @@ titled objects.")
    (main capi:column-layout '(overview recent-commits-layout))
    (overview capi:column-layout '(head-pane merge-pane tags-pane))
    (recent-commits-layout capi:column-layout '(recent-commits)
-                          :title "Recent commits"
+                          :title (format nil "~d recent commits" max-count)
                           :title-position :frame))
   (:default-initargs
-   :best-width 480
-   :best-height 312))
+   :best-width 630
+   :best-height 360))
 
 (defmethod initialize-instance :after ((obj ui-status) &key)
   (with-slots (repository head-pane merge-pane tags-pane)
