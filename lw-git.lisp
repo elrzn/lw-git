@@ -80,9 +80,14 @@ titled objects.")
                                         (declare (ignore list-panel))
                                         (capi:display (make-instance 'ui-git-commit
                                                                      :commit (car commit-dup)
-                                                                     :repository repository)))))
+                                                                     :repository repository))))
+   (refresh-button capi:push-button
+                   :text "Refresh"
+                   :callback (lambda (data interface)
+                               (declare (ignore data interface))
+                               (capi:display-message "Not yet implemented."))))
   (:layouts
-   (main capi:column-layout '(overview recent-commits-layout))
+   (main capi:column-layout '(overview recent-commits-layout refresh-button))
    (overview capi:column-layout '(head-pane merge-pane tags-pane))
    (recent-commits-layout capi:column-layout '(recent-commits)
                           :title (format nil "~d recent commits" max-count)
